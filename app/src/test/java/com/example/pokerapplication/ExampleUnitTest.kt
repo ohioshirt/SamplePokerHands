@@ -54,4 +54,11 @@ class ExampleUnitTest {
         val output = PokerHands.makeHands(input)
         assertEquals("--", output)
     }
+
+    @Test
+    fun test_exception() {
+        val input = "sugoi"
+        val output = PokerHands.makeHands(input)
+        assertEquals("--", output)
+    }
 }

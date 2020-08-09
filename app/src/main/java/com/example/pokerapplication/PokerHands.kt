@@ -10,6 +10,26 @@ object PokerHands {
      * @return　役に対応する文字列
      */
     fun makeHands(input: String): String {
-        return "--"
+        return Hand.fromOrder(
+            Regex("[SHDC][^SHDC]+").findAll(input)
+                .map { it.groupValues[0] }
+                .groupBy { it.substring(1) } // drop SDHC
+                .map { it.value.count() }
+                .sortedDescending()
+                .joinToString("")
+        ).symbol
+    }
+}
+
+enum class Hand(val symbol: String, val order: String) {
+    FourCard("4K", "41"),
+    FullHouse("FH", "32"),
+    ThreeCard("3K", "311"),
+    TwoPair("2P", "221"),
+    OnePair("1P", "2111"),
+    None("--", "11111");
+
+    companion object {
+        fun fromOrder(card: String): Hand = values().firstOrNull { it.order == card } ?: None
     }
 }
